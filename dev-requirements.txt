@@ -1,7 +1,15 @@
 Django>=2.2, <4.1
+
+# Package dependancies
 djangorestframework
 mohawk
 
+# Testing
+tox
+freezegun
+coverage
+
+# Linting and type checking
 isort
 mypy
 django-stubs
