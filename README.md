@@ -38,3 +38,31 @@ class ExampleViewSet(ViewSet):
     def list(self, request):
         return super().list(request)
 ```
+
+## Testing
+
+Tests belong in the `/django_hawk/tests/` directory. You can run the tests by installing the requirements like so:
+
+```
+pip install -r dev-requirements.txt
+```
+
+Now you can run the tests using the following command:
+
+```
+./manage.py test
+```
+
+### Tox tests
+
+We use [tox](https://pypi.org/project/tox/) to test compatibility across different Django versions.
+
+To run these tests with tox, just run the following:
+
+```
+tox
+```
+
+## Pushing to [PyPI](https://pypi.org/)
+
+TODO: update with notes on how to push package to PyPI once we have the package setup.
