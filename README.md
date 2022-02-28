@@ -106,4 +106,8 @@ tox
 
 ## Pushing to [PyPI](https://pypi.org/)
 
-TODO: update with notes on how to push package to PyPI once we have the package setup.
+Running `make build` will do the following:
+- build the `django-hawk` package
+- push the `django-hawk` package to PyPI
+
+You can push to the test PyPI instance by running `build-test`
