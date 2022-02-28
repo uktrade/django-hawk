@@ -104,7 +104,10 @@ To run these tests with tox, just run the following:
 tox
 ```
 
-## Pushing to [PyPI](https://pypi.org/)
+## Pushing to PyPI
+
+- [PyPI Package](https://pypi.org/project/django-hawk/)
+- [Test PyPI Package](https://test.pypi.org/project/django-hawk/)
 
 Running `make build` will do the following:
 - build the `django-hawk` package

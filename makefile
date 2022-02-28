@@ -10,6 +10,9 @@ COLOUR_RED='\033[0;31m'
 .PHONY: help test
 help:
 	@echo -e "$(COLOUR_YELLOW)make cleanup-code$(COLOUR_NONE) : Run flake8, black, isort, mypy"
+	@echo -e "$(COLOUR_YELLOW)make tests$(COLOUR_NONE) : Run tests"
+	@echo -e "$(COLOUR_YELLOW)make build-test$(COLOUR_NONE) : Build the package and push to https://test.pypi.org/project/django-hawk/"
+	@echo -e "$(COLOUR_YELLOW)make build$(COLOUR_NONE) : Build the package and push to https://pypi.org/project/django-hawk/"
 
 cleanup-code:
 	flake8 .
