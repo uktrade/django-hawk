@@ -21,10 +21,10 @@ DJANGO_HAWK = {
 
 To use the HAWK Authentication, we need to do 2 things:
 
-1. Make sure the HawkResponseMiddleware runs
+1. Make sure the `HawkResponseMiddleware` runs
 2. Check the authentication
 
-If you want all of your views to be authenticated with HAWK, then you can add the HawkResponseMiddleware to the `MIDDLEWARE` setting in your project like so:
+If you want all of your views to be authenticated with HAWK, then you can add the `HawkResponseMiddleware` to the `MIDDLEWARE` setting in your project like so:
 
 ```
 MIDDLEWARE = [

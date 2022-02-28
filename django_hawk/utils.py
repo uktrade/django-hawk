@@ -1,10 +1,9 @@
 import logging
 
 from django.http import HttpRequest
-from mohawk.exc import HawkFail
-
 from django_hawk.authentication import authorise
 from django_hawk.settings import django_hawk_settings
+from mohawk.exc import HawkFail
 
 logger = logging.getLogger(__name__)
 

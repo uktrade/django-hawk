@@ -1,13 +1,8 @@
 import logging
-import re
-from operator import truediv
 from typing import Tuple
 
-from django_hawk.authentication import authorise
-from django_hawk.settings import django_hawk_settings
 from django_hawk.utils import DjangoHawkAuthenticationFailed, authenticate_request
 from mohawk import Receiver
-from mohawk.exc import HawkFail
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 
@@ -34,6 +29,6 @@ class HawkAuthentication(BaseAuthentication):
         try:
             hawk_receiver = authenticate_request(request=request)
         except DjangoHawkAuthenticationFailed as e:
-            raise AuthenticationFailed(e)
+            raise AuthenticationFailed(str(e))
 
         return (None, hawk_receiver)

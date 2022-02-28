@@ -18,7 +18,7 @@ def simple_view(request):
         return JsonResponse(
             status=401,
             data={
-                "detail": "Incorrect authentication credentials.",
+                "detail": str(e),
             },
         )
     return HttpResponse("This is a simple view")

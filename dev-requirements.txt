@@ -11,6 +11,9 @@ coverage
 
 # Linting and type checking
 isort
+flake8
+black
 mypy
 django-stubs
 djangorestframework-stubs
+types-freezegun
