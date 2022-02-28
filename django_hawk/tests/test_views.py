@@ -1,23 +1,20 @@
 import datetime
 
 import mohawk
-from django.test import TestCase, override_settings
+from django.test import override_settings
 from freezegun import freeze_time
 from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 
-TEST_PATH = reverse("test_view_set")
-TEST_URL = "http://testserver" + TEST_PATH
-
 
 def hawk_auth_sender(
-    key_id="some-id",
-    secret_key="some-secret",
-    url=TEST_URL,
-    method="GET",
-    content="",
-    content_type="",
+    url: str,
+    key_id: str = "some-id",
+    secret_key: str = "some-secret",
+    method: str = "GET",
+    content: str = "",
+    content_type: str = "",
 ):
     credentials = {
         "id": key_id,
@@ -33,7 +30,15 @@ def hawk_auth_sender(
     )
 
 
-class HawkTests(TestCase):
+class DjangoHawkViewTests:
+    view_name: str = ""
+
+    def get_path(self) -> str:
+        return reverse(self.view_name)
+
+    def get_url(self) -> str:
+        return "http://testserver" + self.get_path()
+
     @override_settings(
         DJANGO_HAWK={
             "HAWK_INCOMING_ACCESS_KEY": "some-id",
@@ -41,18 +46,21 @@ class HawkTests(TestCase):
         }
     )
     def test_empty_object_returned_with_authentication(self):
-        """If the Authorization and X-Forwarded-For headers are correct, then
+        """
+        If the Authorization and X-Forwarded-For headers are correct, then
         the correct, and authentic, data is returned
         """
-        sender = hawk_auth_sender()
+
+        url = self.get_url()
+        sender = hawk_auth_sender(url=url)
         response = APIClient().get(
-            TEST_URL,
+            url,
             content_type="",
             HTTP_AUTHORIZATION=sender.request_header,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        assert response.status_code == status.HTTP_200_OK
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @override_settings(
         DJANGO_HAWK={
@@ -61,20 +69,27 @@ class HawkTests(TestCase):
         }
     )
     def test_bad_credentials_mean_401_returned(self):
-        """If the wrong credentials are used,
+        """
+        If the wrong credentials are used,
         then a 401 is returned
         """
-        sender = hawk_auth_sender()
+
+        url = self.get_url()
+        sender = hawk_auth_sender(url=url)
         response = APIClient().get(
-            TEST_URL,
+            url,
             content_type="",
             HTTP_AUTHORIZATION=sender.request_header,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-        error = {"detail": "Incorrect authentication credentials."}
-        assert response.json() == error
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(
+            response.json(),
+            {
+                "detail": "Incorrect authentication credentials.",
+            },
+        )
 
     @override_settings(
         DJANGO_HAWK={
@@ -83,19 +98,26 @@ class HawkTests(TestCase):
         }
     )
     def test_if_61_seconds_in_past_401_returned(self):
-        """If the Authorization header is generated 61 seconds in the past, then a
+        """
+        If the Authorization header is generated 61 seconds in the past, then a
         401 is returned
         """
+
+        url = self.get_url()
         past = datetime.datetime.now() - datetime.timedelta(seconds=61)
         with freeze_time(past):
-            auth = hawk_auth_sender().request_header
+            auth = hawk_auth_sender(url).request_header
         response = APIClient().get(
-            TEST_PATH,
+            url,
             content_type="",
             HTTP_AUTHORIZATION=auth,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
-        error = {"detail": "Incorrect authentication credentials."}
-        assert response.json() == error
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(
+            response.json(),
+            {
+                "detail": "Incorrect authentication credentials.",
+            },
+        )

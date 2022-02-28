@@ -17,13 +17,15 @@ class DjangoHawkSettings:
     def __getattr__(self, attr):
         django_settings = getattr(settings, "DJANGO_HAWK", {})
 
-        try:
-            # Check if present in user settings
+        # Check if present in user settings
+        if attr in django_settings:
             return django_settings[attr]
-        except KeyError:
-            default_value = DEFAULTS.get(attr, None)
-            if default_value is None and attr not in DEFAULTS:
-                raise AttributeError(f"No value set for DJANGO_HAWK['{attr}']")
+
+        # Check if present in defaults
+        default_value = DEFAULTS.get(attr, None)
+        if default_value is None and attr not in DEFAULTS:
+            raise AttributeError(f"No value set for DJANGO_HAWK['{attr}']")
+        return default_value
 
 
 django_hawk_settings = DjangoHawkSettings()
