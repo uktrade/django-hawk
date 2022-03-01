@@ -38,8 +38,6 @@ Alternatively, if you only want some of your views to be protected with HAWK, yo
 
 To check the authentication you can call `django_hawk.utils.authenticate_request`, if an exception isn't raised then you know that the request is authenticated, see below for examples.
 
-### Standard Django view
-
 ```python
 from django.http import HttpResponse
 from django.utils.decorators import decorator_from_middleware
@@ -58,26 +56,6 @@ def simple_view(request):
 
     # Continue with normal View code...
     return HttpResponse("This is a simple view")
-```
-
-### Django rest framework
-
-```python
-from django_hawk.drf.authentication import HawkAuthentication
-from django_hawk.middleware import HawkResponseMiddleware
-
-from django.utils.decorators import decorator_from_middleware
-
-from rest_framework.viewsets import ViewSet
-
-
-class ExampleViewSet(ViewSet):
-    authentication_classes = (HawkAuthentication,)
-    permission_classes = ()
-
-    @decorator_from_middleware(HawkResponseMiddleware)
-    def list(self, request):
-        return super().list(request)
 ```
 
 ## Testing

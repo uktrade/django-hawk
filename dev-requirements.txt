@@ -1,7 +1,5 @@
-Django>=2.2, <4.1
-
 # Package dependancies
-djangorestframework
+Django>=2.2, <4.1
 mohawk
 
 # Testing
@@ -15,5 +13,4 @@ flake8
 black
 mypy
 django-stubs
-djangorestframework-stubs
 types-freezegun
