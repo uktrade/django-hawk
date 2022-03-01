@@ -1,6 +1,6 @@
 # Django Hawk
 
-A descriptive line about the package
+This package can be used to help create HAWK Authenticated views.
 
 ## Installation
 
