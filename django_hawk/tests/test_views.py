@@ -2,10 +2,8 @@ import datetime
 
 import mohawk
 from django.test import override_settings
+from django.urls import reverse
 from freezegun import freeze_time
-from rest_framework import status
-from rest_framework.reverse import reverse
-from rest_framework.test import APIClient
 
 
 def hawk_auth_sender(
@@ -53,14 +51,14 @@ class DjangoHawkViewTests:
 
         url = self.get_url()
         sender = hawk_auth_sender(url=url)
-        response = APIClient().get(
+        response = self.client.get(
             url,
             content_type="",
             HTTP_AUTHORIZATION=sender.request_header,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, 200)
 
     @override_settings(
         DJANGO_HAWK={
@@ -76,14 +74,14 @@ class DjangoHawkViewTests:
 
         url = self.get_url()
         sender = hawk_auth_sender(url=url)
-        response = APIClient().get(
+        response = self.client.get(
             url,
             content_type="",
             HTTP_AUTHORIZATION=sender.request_header,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(
             response.json(),
             {
@@ -107,14 +105,14 @@ class DjangoHawkViewTests:
         past = datetime.datetime.now() - datetime.timedelta(seconds=61)
         with freeze_time(past):
             auth = hawk_auth_sender(url).request_header
-        response = APIClient().get(
+        response = self.client.get(
             url,
             content_type="",
             HTTP_AUTHORIZATION=auth,
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
 
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(response.status_code, 401)
         self.assertEqual(
             response.json(),
             {
