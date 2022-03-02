@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from django_hawk.tests.test_views import DjangoHawkViewTests
 
 

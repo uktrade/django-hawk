@@ -1,4 +1,5 @@
 from django.urls import path
+
 from django_hawk.tests.views import simple_view
 
 urlpatterns = [

@@ -3,9 +3,10 @@ from typing import TypedDict
 
 from django.core.cache import cache
 from django.utils.crypto import constant_time_compare
-from django_hawk.settings import django_hawk_settings
 from mohawk import Receiver
 from mohawk.exc import HawkFail
+
+from django_hawk.settings import django_hawk_settings
 
 logger = logging.getLogger(__name__)
 

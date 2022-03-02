@@ -1,5 +1,6 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.utils.decorators import decorator_from_middleware
+
 from django_hawk.middleware import HawkResponseMiddleware
 from django_hawk.utils import DjangoHawkAuthenticationFailed, authenticate_request
 
