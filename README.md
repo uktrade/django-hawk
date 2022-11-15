@@ -58,13 +58,13 @@ def simple_view(request):
 Tests belong in the `/django_hawk/tests/` directory. You can run the tests by installing the requirements like so:
 
 ```
-pip install -r dev-requirements.txt
+make setup
 ```
 
 Now you can run the tests using the following command:
 
 ```
-./manage.py test
+poetry run python manage.py test
 ```
 
 ### Tox tests
@@ -74,7 +74,7 @@ We use [tox](https://pypi.org/project/tox/) to test compatibility across differe
 To run these tests with tox, just run the following:
 
 ```
-tox
+make tests
 ```
 
 ## Pushing to PyPI

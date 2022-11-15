@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,6 +16,6 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install Tox and any other packages
-        run: pip install -r dev-requirements.txt
+        run: poetry install --with testing
       - name: Run Tox
         run: tox
