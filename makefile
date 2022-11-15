@@ -20,10 +20,10 @@ setup:
 	poetry install --with testing,utils
 
 cleanup-code:
-	poetry run flake8 .
 	poetry run black .
 	poetry run isort .
 	poetry run mypy .
+	poetry run flake8 .
 
 tests:
 	poetry run tox

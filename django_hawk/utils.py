@@ -31,4 +31,5 @@ def authenticate_request(request: HttpRequest) -> Receiver:
         raise DjangoHawkAuthenticationFailed(
             django_hawk_settings.INCORRECT_CREDENTIALS_MESSAGE
         )
+    setattr(request, django_hawk_settings.REQUEST_ATTR_NAME, hawk_receiver)
     return hawk_receiver

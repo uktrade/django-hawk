@@ -24,7 +24,7 @@ To use the HAWK Authentication, we need to do 2 things:
 1. Make sure the `HawkResponseMiddleware` runs
 2. Check the authentication
 
-If you want all of your views to be authenticated with HAWK, then you can add the `HawkResponseMiddleware` to the `MIDDLEWARE` setting in your project like so:
+Add the `HawkResponseMiddleware` to the `MIDDLEWARE` setting in your project like so:
 
 ```
 MIDDLEWARE = [
@@ -34,19 +34,14 @@ MIDDLEWARE = [
 ]
 ```
 
-Alternatively, if you only want some of your views to be protected with HAWK, you can add the `HawkResponseMiddleware` using the `decorator_from_middleware` method.
-
 To check the authentication you can call `django_hawk.utils.authenticate_request`, if an exception isn't raised then you know that the request is authenticated, see below for examples.
 
 ```python
 from django.http import HttpResponse
-from django.utils.decorators import decorator_from_middleware
 
 from django_hawk.middleware import HawkResponseMiddleware
 from django_hawk.utils import DjangoHawkAuthenticationFailed, authenticate_request
 
-# Decorate with the middleware
-@decorator_from_middleware(HawkResponseMiddleware)
 def simple_view(request):
     # Try to authenticate with HAWK
     try:

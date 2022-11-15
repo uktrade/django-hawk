@@ -1,5 +1,5 @@
 import logging
-from typing import TypedDict, cast
+from typing import TypedDict
 
 from django.core.cache import cache
 from django.http import HttpRequest
@@ -8,7 +8,6 @@ from mohawk import Receiver
 from mohawk.exc import HawkFail
 
 from django_hawk.settings import django_hawk_settings
-from django_hawk.types import DjangoHawkRequest
 
 logger = logging.getLogger(__name__)
 
@@ -70,8 +69,7 @@ def authorise(request: HttpRequest) -> Receiver:
     """
     Raises a HawkFail if the passed request cannot be authenticated
     """
-    request = cast(DjangoHawkRequest, request)
-    request.django_hawk_auth = Receiver(
+    return Receiver(
         lookup_credentials,
         request.META["HTTP_AUTHORIZATION"],
         request.build_absolute_uri(),
@@ -80,4 +78,3 @@ def authorise(request: HttpRequest) -> Receiver:
         content_type=request.content_type,
         seen_nonce=seen_nonce,
     )
-    return request.django_hawk_auth

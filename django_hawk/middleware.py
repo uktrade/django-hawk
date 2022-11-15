@@ -1,9 +1,10 @@
-from typing import Callable, Optional, cast
+from typing import Callable, Optional
 
 from django.http import HttpRequest, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
+from mohawk import Receiver
 
-from django_hawk.types import DjangoHawkRequest
+from django_hawk.settings import django_hawk_settings
 
 
 class HawkResponseMiddleware(MiddlewareMixin):
@@ -16,12 +17,15 @@ class HawkResponseMiddleware(MiddlewareMixin):
 
         response = self.get_response(request)
 
-        if hasattr(request, "django_hawk_auth"):
-            request = cast(DjangoHawkRequest, request)
-            if request.django_hawk_auth:
-                response["Server-Authorization"] = request.django_hawk_auth.respond(
-                    content=response.content,
-                    content_type=response["Content-Type"],
-                )
+        hawk_receiver: Optional[Receiver] = getattr(
+            request,
+            django_hawk_settings.REQUEST_ATTR_NAME,
+            None,
+        )
+        if hawk_receiver:
+            response["Server-Authorization"] = hawk_receiver.respond(
+                content=response.content,
+                content_type=response["Content-Type"],
+            )
 
         return response
