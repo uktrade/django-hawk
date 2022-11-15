@@ -1,8 +1,10 @@
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from django.http import HttpRequest, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
-from mohawk import Receiver
+
+if TYPE_CHECKING:
+    from mohawk import Receiver
 
 from django_hawk.settings import django_hawk_settings
 
@@ -17,7 +19,7 @@ class HawkResponseMiddleware(MiddlewareMixin):
 
         response = self.get_response(request)
 
-        hawk_receiver: Optional[Receiver] = getattr(
+        hawk_receiver: Optional["Receiver"] = getattr(
             request,
             django_hawk_settings.REQUEST_ATTR_NAME,
             None,

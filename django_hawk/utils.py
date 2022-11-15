@@ -1,11 +1,14 @@
 import logging
+from typing import TYPE_CHECKING
 
 from django.http import HttpRequest
-from mohawk import Receiver
 from mohawk.exc import HawkFail
 
 from django_hawk.authentication import authorise
 from django_hawk.settings import django_hawk_settings
+
+if TYPE_CHECKING:
+    from mohawk import Receiver
 
 logger = logging.getLogger(__name__)
 
@@ -14,7 +17,7 @@ class DjangoHawkAuthenticationFailed(Exception):
     pass
 
 
-def authenticate_request(request: HttpRequest) -> Receiver:
+def authenticate_request(request: HttpRequest) -> "Receiver":
     if "HTTP_AUTHORIZATION" not in request.META:
         raise DjangoHawkAuthenticationFailed(
             django_hawk_settings.NO_CREDENTIALS_MESSAGE

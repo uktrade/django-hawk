@@ -39,7 +39,6 @@ To check the authentication you can call `django_hawk.utils.authenticate_request
 ```python
 from django.http import HttpResponse
 
-from django_hawk.middleware import HawkResponseMiddleware
 from django_hawk.utils import DjangoHawkAuthenticationFailed, authenticate_request
 
 def simple_view(request):
@@ -74,7 +73,7 @@ We use [tox](https://pypi.org/project/tox/) to test compatibility across differe
 To run these tests with tox, just run the following:
 
 ```
-make tests
+make tox
 ```
 
 ## Pushing to PyPI
