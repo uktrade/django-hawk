@@ -59,8 +59,8 @@ class DjangoHawkViewTests:
         )
 
         self.assertEqual(response.status_code, 200)
-        if hasattr(response, "headers"):
-            self.assertTrue("Server-Authorization" in response.headers)
+        self.assertTrue("Content-Type" in response)
+        self.assertTrue("Server-Authorization" in response)
 
     @override_settings(
         DJANGO_HAWK={
@@ -83,8 +83,8 @@ class DjangoHawkViewTests:
         )
 
         self.assertEqual(response.status_code, 200)
-        if hasattr(response, "headers"):
-            self.assertTrue("Server-Authorization" in response.headers)
+        self.assertTrue("Content-Type" in response)
+        self.assertTrue("Server-Authorization" in response)
 
         repeat_response = self.client.get(
             url,
@@ -93,8 +93,8 @@ class DjangoHawkViewTests:
             HTTP_X_FORWARDED_FOR="1.2.3.4, 123.123.123.123",
         )
         self.assertEqual(repeat_response.status_code, 401)
-        if hasattr(repeat_response, "headers"):
-            self.assertTrue("Server-Authorization" not in repeat_response.headers)
+        self.assertTrue("Content-Type" in response)
+        self.assertTrue("Server-Authorization" in response)
 
     @override_settings(
         DJANGO_HAWK={
@@ -124,8 +124,8 @@ class DjangoHawkViewTests:
                 "detail": "Incorrect authentication credentials.",
             },
         )
-        if hasattr(response, "headers"):
-            self.assertTrue("Server-Authorization" not in response.headers)
+        self.assertTrue("Content-Type" in response)
+        self.assertTrue("Server-Authorization" not in response)
 
     @override_settings(
         DJANGO_HAWK={
@@ -157,5 +157,5 @@ class DjangoHawkViewTests:
                 "detail": "Incorrect authentication credentials.",
             },
         )
-        if hasattr(response, "headers"):
-            self.assertTrue("Server-Authorization" not in response.headers)
+        self.assertTrue("Content-Type" in response)
+        self.assertTrue("Server-Authorization" not in response)
