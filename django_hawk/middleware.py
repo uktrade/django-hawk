@@ -1,7 +1,12 @@
-from typing import Callable, Optional
+from typing import TYPE_CHECKING, Callable, Optional
 
 from django.http import HttpRequest, HttpResponse
 from django.utils.deprecation import MiddlewareMixin
+
+if TYPE_CHECKING:
+    from mohawk import Receiver
+
+from django_hawk.settings import django_hawk_settings
 
 
 class HawkResponseMiddleware(MiddlewareMixin):
@@ -9,15 +14,20 @@ class HawkResponseMiddleware(MiddlewareMixin):
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
-
         if not self.get_response:
             raise Exception("get_response is not defined")
 
         response = self.get_response(request)
 
-        response["Server-Authorization"] = request.auth.respond(  # type: ignore
-            content=response.content,
-            content_type=response["Content-Type"],
+        hawk_receiver: Optional["Receiver"] = getattr(
+            request,
+            django_hawk_settings.REQUEST_ATTR_NAME,
+            None,
         )
+        if hawk_receiver:
+            response["Server-Authorization"] = hawk_receiver.respond(
+                content=response.content,
+                content_type=response["Content-Type"],
+            )
 
         return response

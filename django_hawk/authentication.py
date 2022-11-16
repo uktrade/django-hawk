@@ -2,6 +2,7 @@ import logging
 from typing import TypedDict
 
 from django.core.cache import cache
+from django.http import HttpRequest
 from django.utils.crypto import constant_time_compare
 from mohawk import Receiver
 from mohawk.exc import HawkFail
@@ -64,11 +65,10 @@ def seen_nonce(access_key_id, nonce, _) -> bool:
     return seen_cache_key
 
 
-def authorise(request) -> Receiver:
+def authorise(request: HttpRequest) -> Receiver:
     """
     Raises a HawkFail if the passed request cannot be authenticated
     """
-
     return Receiver(
         lookup_credentials,
         request.META["HTTP_AUTHORIZATION"],

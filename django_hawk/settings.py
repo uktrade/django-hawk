@@ -4,6 +4,7 @@ DEFAULTS = {
     "NO_CREDENTIALS_MESSAGE": "Authentication credentials were not provided.",
     "INCORRECT_CREDENTIALS_MESSAGE": "Incorrect authentication credentials.",
     "MAX_PER_PAGE": 500,
+    "REQUEST_ATTR_NAME": "django_hawk_receiver",
 }
 
 
@@ -13,6 +14,7 @@ class DjangoHawkSettings:
     NO_CREDENTIALS_MESSAGE: str
     INCORRECT_CREDENTIALS_MESSAGE: str
     MAX_PER_PAGE: int
+    REQUEST_ATTR_NAME: str
 
     def __getattr__(self, attr):
         django_settings = getattr(settings, "DJANGO_HAWK", {})

@@ -1,11 +1,8 @@
 from django.http import HttpRequest, HttpResponse, JsonResponse
-from django.utils.decorators import decorator_from_middleware
 
-from django_hawk.middleware import HawkResponseMiddleware
 from django_hawk.utils import DjangoHawkAuthenticationFailed, authenticate_request
 
 
-@decorator_from_middleware(HawkResponseMiddleware)
 def simple_view(request: HttpRequest) -> HttpResponse:
     try:
         authenticate_request(request=request)
