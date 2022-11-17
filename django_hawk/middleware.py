@@ -30,9 +30,10 @@ class HawkResponseMiddleware(MiddlewareMixin):
     def is_hawk_request(self, request: HttpRequest) -> bool:
         if "HTTP_AUTHORIZATION" not in request.META:
             return False
-        return request.META["HTTP_AUTHORIZATION"].startswith("Hawk")
+        return request.META.get("HTTP_AUTHORIZATION", "").startswith("Hawk ")
 
-    def get_receiver(self, request: HttpRequest) -> Optional["Receiver"]:
+    def get_receiver(self, request: HttpRequest) -> Optional[Receiver]:
         hawk_receiver = getattr(request, django_hawk_settings.REQUEST_ATTR_NAME, None)
         if isinstance(hawk_receiver, Receiver):
             return hawk_receiver
+        return None
