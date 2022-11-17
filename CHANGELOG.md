@@ -1,5 +1,9 @@
 # Django HAWK
 
+## 1.1.0
+- Update middleware so it can be inherited and altered as needed
+- Add tests for Django 4.1
+
 ## 1.0.0
 - Improve the authentication implementation
 
