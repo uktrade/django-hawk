@@ -17,7 +17,9 @@ class HawkResponseMiddleware(MiddlewareMixin):
 
         response = self.get_response(request)
 
-        if self.is_hawk_request(request):
+        if self.is_hawk_request(request) and not response.has_header(
+            "Server-Authorization"
+        ):
             hawk_receiver = self.get_receiver(request)
             if hawk_receiver:
                 response["Server-Authorization"] = hawk_receiver.respond(

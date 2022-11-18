@@ -1,5 +1,9 @@
 # Django HAWK
 
+## 1.1.1
+- `HawkResponseMiddleware` will no longer overwrite the "Server-Authorization" header if
+  it is already set
+
 ## 1.1.0
 - Update middleware so it can be inherited and altered as needed
 - Add tests for Django 4.1
