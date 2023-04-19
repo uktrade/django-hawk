@@ -21,15 +21,15 @@ homepage = "https://github.com/uktrade/django-hawk"
 
 
 [tool.poetry.dependencies]
-python = ">=3.6.2,<4.0"
-Django = ">=2.2, <4.2"
+python = ">=3.7,<4.0"
+Django = ">=3.2, <4.3"
 mohawk = ">=1.0.0, <2.0"
 
 [tool.poetry.group.testing]
 optional = true
 
 [tool.poetry.group.testing.dependencies]
-tox = "*"
+tox = "^4"
 freezegun = "*"
 coverage = "*"
 
