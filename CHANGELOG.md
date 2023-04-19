@@ -1,5 +1,9 @@
 # Django HAWK
 
+## 1.2.0
+- Dropped support for Python versions under 3.7
+- Dropped support for Django versions under 3.2
+
 ## 1.1.1
 - `HawkResponseMiddleware` will no longer overwrite the "Server-Authorization" header if
   it is already set
