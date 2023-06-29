@@ -1,5 +1,9 @@
 # Django HAWK
 
+## 1.2.1
+- Update Django to 3.2.19
+- Update asgiref to 3.7.2
+
 ## 1.2.0
 - Dropped support for Python versions under 3.7
 - Dropped support for Django versions under 3.2
