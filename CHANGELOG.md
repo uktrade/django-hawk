@@ -2,7 +2,7 @@
 
 ## 1.2.2
 - Add tests and update dependencies for Django 5.0
-- Update Django to 3.2.20
+- Update Django to 3.2.23
 
 ## 1.2.1
 - Update Django to 3.2.19
