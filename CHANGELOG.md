@@ -1,5 +1,9 @@
 # Django HAWK
 
+## 1.2.2
+- Add tests and update dependencies for Django 5.0
+- Update Django to 3.2.20
+
 ## 1.2.1
 - Update Django to 3.2.19
 - Update asgiref to 3.7.2
