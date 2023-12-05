@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ["3.8", "3.9", "3.10"]
+        python: ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - uses: actions/checkout@v2
@@ -23,4 +23,4 @@ jobs:
         env:
           POETRY_VIRTUALENVS_CREATE: false
       - name: Run Tox
-        run: poetry run tox
+        run: poetry run tox --parallel auto

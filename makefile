@@ -26,7 +26,7 @@ cleanup-code:
 	poetry run flake8 .
 
 tox:
-	poetry run tox
+	poetry run tox --parallel auto
 
 build-package:
 	poetry build
